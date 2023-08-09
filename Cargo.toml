@@ -25,4 +25,4 @@ features = ["full"]
 
 [dependencies.sqlx]
 version = "0.7.1"
-features = ["sqlite", "runtime-tokio-native-tls"]
+features = ["sqlite", "runtime-tokio"]
