@@ -1,28 +1,17 @@
-[package]
-name = "excerpt-archivist"
-authors = ["Proudmuslim <proudmuslim-dev@protonmail.com>"]
-license = "GPL-3.0"
-version = "0.0.1"
-edition = "2021"
+[workspace]
+members = [
+  "backend",
+  "prisma-cli"
+]
+resolver = "2"
 
-# See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
+[profile.release]
+lto = true
+codegen-units = 1
 
-[dependencies]
+[workspace.dependencies]
 
-# TODO: Decide webserver
-
-[dependencies.color-eyre]
-version = "0.5"
+[workspace.dependencies.prisma-client-rust]
+git = "https://github.com/Brendonovich/prisma-client-rust"
 default-features = false
-
-[dependencies.serde]
-version = "1"
-features = ["derive"]
-
-[dependencies.tokio]
-version = "1"
-features = ["full"]
-
-[dependencies.sqlx]
-version = "0.7.1"
-features = ["sqlite", "runtime-tokio"]
+features = ["sqlite"]
