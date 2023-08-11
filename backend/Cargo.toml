@@ -10,7 +10,9 @@ edition = "2021"
 [dependencies]
 prisma-client-rust = { workspace = true }
 
-# TODO: Decide webserver
+[dependencies.rocket]
+version = "0.5.0-rc.3"
+features = ["json"]
 
 [dependencies.color-eyre]
 version = "0.5"
