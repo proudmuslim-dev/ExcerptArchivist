@@ -910,8 +910,10 @@ pub mod excerpt {
         }
     }
     pub mod created_at {
-        use super::super::{_prisma::*, *};
-        use super::{SetParam, UncheckedSetParam, UniqueWhereParam, WhereParam, WithParam};
+        use super::{
+            super::{_prisma::*, *},
+            SetParam, UncheckedSetParam, UniqueWhereParam, WhereParam, WithParam,
+        };
         pub const NAME: &str = "createdAt";
         pub type Type = ::prisma_client_rust::chrono::DateTime<::prisma_client_rust::chrono::FixedOffset>;
         pub type RecursiveSafeType = Type;
@@ -993,8 +995,10 @@ pub mod excerpt {
         }
     }
     pub mod excerpt {
-        use super::super::{_prisma::*, *};
-        use super::{SetParam, UncheckedSetParam, UniqueWhereParam, WhereParam, WithParam};
+        use super::{
+            super::{_prisma::*, *},
+            SetParam, UncheckedSetParam, UniqueWhereParam, WhereParam, WithParam,
+        };
         pub const NAME: &str = "excerpt";
         pub type Type = Option<String>;
         pub type RecursiveSafeType = Type;
@@ -1071,8 +1075,10 @@ pub mod excerpt {
         }
     }
     pub mod id {
-        use super::super::{_prisma::*, *};
-        use super::{SetParam, UncheckedSetParam, UniqueWhereParam, WhereParam, WithParam};
+        use super::{
+            super::{_prisma::*, *},
+            SetParam, UncheckedSetParam, UniqueWhereParam, WhereParam, WithParam,
+        };
         pub const NAME: &str = "id";
         pub type Type = i32;
         pub type RecursiveSafeType = Type;
@@ -1158,8 +1164,10 @@ pub mod excerpt {
         }
     }
     pub mod images {
-        use super::super::{_prisma::*, *};
-        use super::{SetParam, UncheckedSetParam, UniqueWhereParam, WhereParam, WithParam};
+        use super::{
+            super::{_prisma::*, *},
+            SetParam, UncheckedSetParam, UniqueWhereParam, WhereParam, WithParam,
+        };
         pub const NAME: &str = "images";
         pub type Type = Vec<image::Data>;
         pub type RecursiveSafeType = Type;
@@ -1700,8 +1708,10 @@ pub mod image {
         }
     }
     pub mod _count {
-        use super::super::{_prisma::*, *};
-        use super::{SetParam, UncheckedSetParam, UniqueWhereParam, WhereParam, WithParam};
+        use super::{
+            super::{_prisma::*, *},
+            SetParam, UncheckedSetParam, UniqueWhereParam, WhereParam, WithParam,
+        };
         pub const NAME: &str = "_count";
         pub struct Order(super::SortOrder);
         pub fn order<T: From<Order>>(v: super::SortOrder) -> T {
@@ -1714,8 +1724,10 @@ pub mod image {
         }
     }
     pub mod excerpt {
-        use super::super::{_prisma::*, *};
-        use super::{SetParam, UncheckedSetParam, UniqueWhereParam, WhereParam, WithParam};
+        use super::{
+            super::{_prisma::*, *},
+            SetParam, UncheckedSetParam, UniqueWhereParam, WhereParam, WithParam,
+        };
         pub const NAME: &str = "excerpt";
         pub type Type = excerpt::Data;
         pub type RecursiveSafeType = Box<excerpt::Data>;
@@ -1821,8 +1833,10 @@ pub mod image {
         }
     }
     pub mod excerpt_id {
-        use super::super::{_prisma::*, *};
-        use super::{SetParam, UncheckedSetParam, UniqueWhereParam, WhereParam, WithParam};
+        use super::{
+            super::{_prisma::*, *},
+            SetParam, UncheckedSetParam, UniqueWhereParam, WhereParam, WithParam,
+        };
         pub const NAME: &str = "excerptId";
         pub type Type = i32;
         pub type RecursiveSafeType = Type;
@@ -1898,8 +1912,10 @@ pub mod image {
         }
     }
     pub mod path {
-        use super::super::{_prisma::*, *};
-        use super::{SetParam, UncheckedSetParam, UniqueWhereParam, WhereParam, WithParam};
+        use super::{
+            super::{_prisma::*, *},
+            SetParam, UncheckedSetParam, UniqueWhereParam, WhereParam, WithParam,
+        };
         pub const NAME: &str = "path";
         pub type Type = String;
         pub type RecursiveSafeType = Type;

@@ -1,11 +1,8 @@
 use prisma_client_rust::QueryError;
 
-use crate::models::prisma::excerpt;
-use crate::models::excerpts;
+use crate::models::{excerpts, prisma::excerpt};
 
-excerpt::include!(excerpt_with_images {
-    images
-});
+excerpt::include!(excerpt_with_images { images });
 
 pub async fn get_excerpt(excerpt_id: i32) -> Result<Option<excerpt_with_images::Data>, QueryError> {
     excerpts()

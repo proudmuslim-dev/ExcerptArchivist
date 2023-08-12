@@ -7,11 +7,7 @@ use color_eyre::eyre::Result;
 async fn main() -> Result<()> {
     color_eyre::install()?;
 
-    rocket::build()
-        .mount("/", routes![])
-        .launch()
-        .await?;
+    rocket::build().mount("/", routes![]).launch().await?;
 
     Ok(())
-} 
-
+}

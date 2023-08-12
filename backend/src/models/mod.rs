@@ -2,10 +2,9 @@
 pub mod prisma;
 pub mod prisma_ext;
 
-use lazy_static::lazy_static;
 use async_once::AsyncOnce;
-use prisma::PrismaClient;
-use prisma::{excerpt, image};
+use lazy_static::lazy_static;
+use prisma::{excerpt, image, PrismaClient};
 
 lazy_static! {
     pub static ref PRISMA_CLIENT: AsyncOnce<PrismaClient> =
