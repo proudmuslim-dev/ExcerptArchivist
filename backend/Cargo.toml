@@ -8,6 +8,10 @@ edition = "2021"
 # See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
 
 [dependencies]
+async_once = "0.2.6"
+lazy_static = "1.4.0"
+paste = "1.0.14"
+
 prisma-client-rust = { workspace = true }
 
 [dependencies.rocket]
