@@ -1,7 +1,4 @@
-#[macro_use]
-extern crate rocket;
+pub mod api;
+pub mod db;
 
-// TODO: Decide whether to have an auth system or not
-
-pub mod models;
-pub mod routes;
+pub type DbPool = sqlx::SqlitePool;

@@ -1,7 +1,6 @@
 [workspace]
 members = [
   "backend",
-  "prisma-cli"
 ]
 resolver = "2"
 
@@ -9,9 +8,3 @@ resolver = "2"
 lto = true
 codegen-units = 1
 
-[workspace.dependencies]
-
-[workspace.dependencies.prisma-client-rust]
-git = "https://github.com/Brendonovich/prisma-client-rust"
-default-features = false
-features = ["sqlite"]
