@@ -20,6 +20,7 @@ jobs:
       - uses: dtolnay/rust-toolchain@stable
         with:
           components: clippy
+
       - name: Cargo Caching
         uses: actions/cache@v2
         with:
@@ -30,13 +31,6 @@ jobs:
             ~/.cargo/git/db/
             target/
           key: ${{ runner.os }}-cargo-${{ hashFiles('**/Cargo.lock') }}
-
-      - name: Install libpq-dev
-        run: sudo apt-get install -y libpq-dev
-
-      - name: Generate Prisma Rust bindings
-        working-directory: ./backend
-        run: cargo prisma generate
 
       - name: Clippy
         run: cargo clippy
