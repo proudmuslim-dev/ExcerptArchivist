@@ -10,6 +10,7 @@ use poem::{
     Result,
 };
 use poem_openapi::{
+    param::Query,
     payload::{Json, PlainText},
     OpenApi,
 };
@@ -44,10 +45,21 @@ impl Api {
         Ok(Json(ExcerptWithImages::new(excerpt, images.to_vec())))
     }
 
-    // TOOD: Pagination
+    // TOOD: Test pagination
     #[oai(path = "/excerpts", method = "get")]
-    pub async fn get_excerpts(&self, pool: Data<&DbPool>) -> Result<Json<Vec<ExcerptWithImages>>> {
-        let mut excerpts = sqlx::query_as::<Sqlite, Excerpt>("SELECT * FROM excerpt").fetch(pool.0);
+    pub async fn get_excerpts(
+        &self,
+        pool: Data<&DbPool>,
+        Query(page): Query<Option<u32>>,
+        Query(count): Query<Option<u32>>,
+    ) -> Result<Json<Vec<ExcerptWithImages>>> {
+        let page = page.unwrap_or(1);
+        let count = count.unwrap_or(10);
+
+        let mut excerpts = sqlx::query_as::<Sqlite, Excerpt>("SELECT * FROM excerpt LIMIT ? OFFSET ?")
+            .bind(count)
+            .bind(page - 1)
+            .fetch(pool.0);
 
         let mut excerpt_vec = vec![];
 
@@ -64,5 +76,5 @@ impl Api {
         Ok(Json(excerpt_vec))
     }
 
-    // TODO: Create, modify, delete 
+    // TODO: Create, modify, delete
 }
