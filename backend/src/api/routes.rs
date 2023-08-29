@@ -76,5 +76,47 @@ impl Api {
         Ok(Json(excerpt_vec))
     }
 
-    // TODO: Create, modify, delete
+    #[oai(path = "/excerpts", method = "post")]
+    pub async fn create_excerpt(
+        &self,
+        pool: Data<&DbPool>,
+        Json(excerpt): Json<Excerpt>,
+    ) -> Result<Json<ExcerptWithImages>> {
+        let excerpt_id = {
+            let query = match excerpt.quote {
+                Some(quote) => sqlx::query("INSERT INTO excerpt ( citation, quote ) VALUES ( ?, ? )")
+                    .bind(excerpt.citation)
+                    .bind(quote),
+                None => sqlx::query("INSERT INTO excerpt ( citation ) VALUES ( ? )").bind(excerpt.citation),
+            };
+
+            query
+                .execute(pool.0)
+                .await
+                .map_err(InternalServerError)?
+                .last_insert_rowid()
+        };
+
+        let excerpt = sqlx::query_as::<Sqlite, Excerpt>("SELECT * FROM excerpt WHERE id = ?")
+            .bind(excerpt_id)
+            .fetch_optional(pool.0)
+            .await
+            .map_err(InternalServerError)?
+            .ok_or(NotFoundError)?;
+
+        Ok(Json(ExcerptWithImages::new(excerpt, vec![])))
+    }
+
+    #[oai(path = "/excerpts/:id", method = "delete")]
+    pub async fn delete_excerpt(&self, pool: Data<&DbPool>, Path(id): Path<i64>) -> Result<()> {
+        sqlx::query("DELETE FROM excerpt WHERE id = ?")
+            .bind(id)
+            .execute(pool.0)
+            .await
+            .map_err(InternalServerError)?;
+
+        Ok(())
+    }
+
+    // TODO: Create, modify
 }

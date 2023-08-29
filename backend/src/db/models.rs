@@ -1,10 +1,12 @@
 use poem_openapi::Object;
 use sqlx::FromRow;
 
-#[derive(Debug, FromRow)]
+#[derive(Debug, Object, FromRow)]
 pub struct Excerpt {
+    #[oai(read_only)]
     pub id: i64,
-    pub excerpt: String,
+    pub citation: String,
+    pub quote: Option<String>,
 }
 
 #[derive(Debug, Object, FromRow, Clone)]

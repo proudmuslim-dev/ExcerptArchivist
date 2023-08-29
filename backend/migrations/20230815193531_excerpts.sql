@@ -1,8 +1,9 @@
 -- Add migration script here
 CREATE TABLE IF NOT EXISTS excerpt
 (
-    id      INTEGER PRIMARY KEY NOT NULL,
-    excerpt STRING              NOT NULL
+    id          INTEGER PRIMARY KEY NOT NULL,
+    citation    STRING              NOT NULL,
+    quote       STRING
 );
 
 CREATE TABLE IF NOT EXISTS image
