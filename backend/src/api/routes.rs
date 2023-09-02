@@ -1,5 +1,8 @@
 use crate::{
-    api::objects::{requests::UpdateExcerpt, responses::ExcerptWithImages},
+    api::objects::{
+        requests::{AddImagePayload, UpdateExcerpt},
+        responses::ExcerptWithImages,
+    },
     db::models::{Excerpt, Image},
     DbPool,
 };
@@ -14,6 +17,7 @@ use poem_openapi::{
     payload::{Json, PlainText},
     OpenApi,
 };
+use rand::distributions::{Alphanumeric, DistString};
 use sqlx::Sqlite;
 
 pub struct Api;
@@ -170,5 +174,40 @@ impl Api {
         Ok(Json(excerpt_and_images))
     }
 
-    // TODO: Add/remove images
+    #[oai(path = "/excerpts/:id/images", method = "post")]
+    pub async fn add_image(
+        &self,
+        pool: Data<&DbPool>,
+        Path(id): Path<i64>,
+        payload: AddImagePayload,
+    ) -> Result<Json<Image>> {
+        // TODO: Check if image exists
+
+        let path = format!(
+            // TODO: Deduce file ext
+            "./images/{id}-{rand}.png",
+            rand = Alphanumeric.sample_string(&mut rand::thread_rng(), 4)
+        );
+
+        tokio::fs::write(
+            path.as_str(),
+            payload.file.into_vec().await.map_err(InternalServerError)?,
+        )
+        .await
+        .map_err(InternalServerError)?;
+
+        sqlx::query("INSERT INTO image ( path, post_id ) VALUES ( ?, ? )")
+            .bind(path.as_str())
+            .bind(id)
+            .execute(pool.0)
+            .await
+            .map_err(InternalServerError)?;
+
+        Ok(Json(Image { post_id: id, path }))
+    }
+
+    // TODO: Work out path for img removal
+    pub async fn remove_image(&self) -> Result<()> {
+        todo!()
+    }
 }

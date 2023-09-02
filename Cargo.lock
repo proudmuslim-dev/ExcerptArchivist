@@ -504,6 +504,7 @@ dependencies = [
  "paste",
  "poem",
  "poem-openapi",
+ "rand",
  "serde",
  "sqlx",
  "tokio",

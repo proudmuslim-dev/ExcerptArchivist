@@ -12,6 +12,7 @@ async_once = "0.2.6"
 futures = "0.3.28"
 lazy_static = "1.4.0"
 paste = "1.0.14"
+rand = "0.8.5"
 
 [dependencies.sqlx]
 version = "0.6"
