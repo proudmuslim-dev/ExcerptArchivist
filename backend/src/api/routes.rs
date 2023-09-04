@@ -181,7 +181,14 @@ impl Api {
         Path(id): Path<i64>,
         payload: AddImagePayload,
     ) -> Result<Json<Image>> {
-        // TODO: Check if image exists
+        // TODO: Optimize query (not worth the effort right now) 
+        sqlx::query("SELECT 1 FROM excerpt WHERE id = ?")
+            .bind(id)
+            .fetch_optional(pool.0)
+            .await
+            .map_err(InternalServerError)?
+            .ok_or(NotFoundError)?;
+
 
         let path = format!(
             // TODO: Deduce file ext
