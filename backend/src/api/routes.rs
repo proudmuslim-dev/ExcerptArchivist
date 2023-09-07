@@ -8,7 +8,7 @@ use crate::{
 };
 use futures::TryStreamExt;
 use poem::{
-    error::{InternalServerError, NotFoundError},
+    error::{BadRequest, InternalServerError, NotFoundError},
     web::{Data, Path},
     Result,
 };
@@ -181,7 +181,17 @@ impl Api {
         Path(id): Path<i64>,
         payload: AddImagePayload,
     ) -> Result<Json<Image>> {
-        // TODO: Optimize query (not worth the effort right now) 
+        // TODO: Ensure that it is in fact an image
+        let ext = payload
+            .file
+            .content_type()
+            .ok_or(BadRequest(std::io::Error::new(
+                std::io::ErrorKind::NotFound,
+                "Missing Content-Type header in form field!",
+            )))?
+            .replace("image/", "");
+
+        // TODO: Optimize query (not worth the effort right now)
         sqlx::query("SELECT 1 FROM excerpt WHERE id = ?")
             .bind(id)
             .fetch_optional(pool.0)
@@ -189,10 +199,8 @@ impl Api {
             .map_err(InternalServerError)?
             .ok_or(NotFoundError)?;
 
-
         let path = format!(
-            // TODO: Deduce file ext
-            "./images/{id}-{rand}.png",
+            "./images/{id}-{rand}.{ext}",
             rand = Alphanumeric.sample_string(&mut rand::thread_rng(), 4)
         );
 
@@ -214,7 +222,18 @@ impl Api {
     }
 
     // TODO: Work out path for img removal
-    pub async fn remove_image(&self) -> Result<()> {
-        todo!()
+    #[oai(path = "/images/:path", method = "delete")]
+    pub async fn remove_image(&self, pool: Data<&DbPool>, Path(file): Path<String>) -> Result<()> {
+        tokio::fs::remove_file(format!("/images/{file}"))
+            .await
+            .map_err(InternalServerError)?;
+
+        sqlx::query("DELETE 1 FROM image WHERE path = ?")
+            .bind(file)
+            .execute(pool.0)
+            .await
+            .map_err(InternalServerError)?;
+
+        Ok(())
     }
 }
